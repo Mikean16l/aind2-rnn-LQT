@@ -4,6 +4,7 @@ from keras.models import Sequential
 from keras.layers import Activation, Dense
 from keras.layers import LSTM
 import keras
+import string
 
 
 # TODO: fill out the function below that transforms the input series 
@@ -35,11 +36,23 @@ def build_part1_RNN(window_size):
 ### TODO: return the text input with only ascii lowercase and the punctuation given below included.
 def cleaned_text(text):
     punctuation = ['!', ',', '.', ':', ';', '?']
+
+    allowed_chars = string.ascii_lowercase + ' ' + '!' + ',' + '.' + ':' + ';' + '?'
+
+    # remove as many non-english characters and character sequences as you can
+    for char in text:
+        if char not in allowed_chars:
+            text = text.replace(char, ' ')
+
+    # shorten any extra dead space created above
+    text = text.replace('  ', ' ')
+
     chars = sorted(list(set(text)))
     text = text.replace('\n', ' ')
     text = text.replace('\r', ' ')
     text = text.replace('-', ' ')
     text = text.replace('*', ' ')
+    text = text.replace('`', ' ')
     text = text.replace('/', ' ')
     text = text.replace('&', ' ')
     text = text.replace('%', ' ')
@@ -47,6 +60,32 @@ def cleaned_text(text):
     text = text.replace('$', ' ')
     text = text.replace('(', ' ')
     text = text.replace(')', ' ')
+    text = text.replace('{', ' ')
+    text = text.replace('}', ' ')
+    text = text.replace('=', ' ')
+    text = text.replace('+', ' ')
+    text = text.replace('_', ' ')
+    text = text.replace('"', ' ')
+    text = text.replace("'", ' ')
+    text = text.replace('   ', ' ')
+    text = text.replace('^', ' ')
+    text = text.replace('~', ' ')
+    text = text.replace('<', ' ')
+    text = text.replace('>', ' ')
+    text = text.replace('|', ' ')
+    text = text.replace('1', ' ')
+    text = text.replace('2', ' ')
+    text = text.replace('3', ' ')
+    text = text.replace('4', ' ')
+    text = text.replace('5', ' ')
+    text = text.replace('6', ' ')
+    text = text.replace('7', ' ')
+    text = text.replace('8', ' ')
+    text = text.replace('9', ' ')
+    text = text.replace('0', ' ')
+
+    # shorten any extra dead space created above
+    text = text.replace('  ', ' ')
 
     return text
 
